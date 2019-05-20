@@ -13,18 +13,23 @@ import com.akhutornoy.petclinic.ui.host.HostsFragment.OnHostListInteractionListe
 import kotlinx.android.synthetic.main.item_hosts.view.*
 
 class HostsRecyclerViewAdapter(
-    private val mValues: List<HostModel>,
-    private val mListener: OnHostListInteractionListener?
+    private val listener: OnHostListInteractionListener?
 ) : RecyclerView.Adapter<HostsRecyclerViewAdapter.ViewHolder>() {
 
-    private val mOnClickListener: View.OnClickListener
+    var items: List<HostModel> = emptyList()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
+
+    private val onClickListener: View.OnClickListener
 
     init {
-        mOnClickListener = View.OnClickListener { v ->
+        onClickListener = View.OnClickListener { v ->
             val item = v.tag as HostModel
             // Notify the active callbacks interface (the activity, if the fragment is attached to
             // one) that an item has been selected.
-            mListener?.onHostInteraction(item)
+            listener?.onHostInteraction(item)
         }
     }
 
@@ -35,17 +40,17 @@ class HostsRecyclerViewAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = mValues[position]
+        val item = items[position]
         holder.mIdView.text = item.id.toString()
         holder.mContentView.text = "${item.firstName} ${item.lastName}"
 
         with(holder.mView) {
             tag = item
-            setOnClickListener(mOnClickListener)
+            setOnClickListener(onClickListener)
         }
     }
 
-    override fun getItemCount(): Int = mValues.size
+    override fun getItemCount(): Int = items.size
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
         val mIdView: TextView = mView.item_number
@@ -55,4 +60,5 @@ class HostsRecyclerViewAdapter(
             return super.toString() + " '" + mContentView.text + "'"
         }
     }
+
 }

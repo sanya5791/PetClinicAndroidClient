@@ -3,12 +3,13 @@ package com.akhutornoy.petclinic.ui.host
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.akhutornoy.petclinic.R
+import com.akhutornoy.petclinic.di.ui.host.HostsUiInjection
 import com.akhutornoy.petclinic.entity.ui.HostModel
 import com.akhutornoy.petclinic.ui.base.BaseFragment
 import com.akhutornoy.petclinic.ui.base.BaseViewModel
-import com.akhutornoy.petclinic.ui.dummy.DummyContent
 import com.akhutornoy.petclinic.ui.host.adapter.HostsRecyclerViewAdapter
 import kotlinx.android.synthetic.main.fragment_hosts.*
 
@@ -16,33 +17,33 @@ class HostsFragment : BaseFragment() {
 
     private var listener: OnHostListInteractionListener? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private val viewModel: HostsViewModel by lazy { HostsUiInjection.provideHostsViewModel(this) }
+    private val listAdapter by lazy { HostsRecyclerViewAdapter(listener) }
 
     override fun fragmentLayoutId() = R.layout.fragment_hosts
 
     override fun initViewModelObservers() {
-//        TODO:
+        viewModel.hosts.observe(this, Observer {
+            listAdapter.items = it
+        })
     }
 
     override fun initView() {
         // Set the adapter
         with(recyclerView) {
             layoutManager = LinearLayoutManager(context)
-            adapter = HostsRecyclerViewAdapter(DummyContent.ITEMS, listener)
+            adapter = listAdapter
         }
     }
 
     override fun getBaseViewModel(): BaseViewModel? {
-//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-        return null
+        return viewModel
     }
 
     override fun getProgressBar(): View = progress_bar
 
     override fun loadData() {
-//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        viewModel.getHosts()
     }
 
     override fun onAttach(context: Context) {
@@ -60,7 +61,6 @@ class HostsFragment : BaseFragment() {
     }
 
     interface OnHostListInteractionListener {
-        // TODO: Update argument type and name
         fun onHostInteraction(item: HostModel)
     }
 
@@ -73,4 +73,5 @@ class HostsFragment : BaseFragment() {
                 }
             }
     }
+
 }
