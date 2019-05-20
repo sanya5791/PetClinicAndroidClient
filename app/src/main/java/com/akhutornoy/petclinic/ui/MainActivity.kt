@@ -8,10 +8,11 @@ import com.akhutornoy.petclinic.R
 import com.akhutornoy.petclinic.entity.ui.HostModel
 import com.akhutornoy.petclinic.ui.extension.showToast
 import com.akhutornoy.petclinic.ui.host.HostsFragment
+import com.akhutornoy.petclinic.ui.host.OnHostClickedListener
 
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), HostsFragment.OnHostListInteractionListener {
+class MainActivity : AppCompatActivity(), OnHostClickedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +28,7 @@ class MainActivity : AppCompatActivity(), HostsFragment.OnHostListInteractionLis
         }
     }
 
-    override fun onHostInteraction(item: HostModel) {
+    override fun onHostClicked(item: HostModel) {
         showToast("clicked: $item")
     }
 

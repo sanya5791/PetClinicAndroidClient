@@ -8,8 +8,6 @@ import android.widget.TextView
 import com.akhutornoy.petclinic.R
 import com.akhutornoy.petclinic.entity.ui.HostModel
 
-import com.akhutornoy.petclinic.ui.host.HostsFragment.OnHostListInteractionListener
-
 import kotlinx.android.synthetic.main.item_hosts.view.*
 
 class HostsRecyclerViewAdapter(
@@ -22,14 +20,18 @@ class HostsRecyclerViewAdapter(
             notifyDataSetChanged()
         }
 
-    private val onClickListener: View.OnClickListener
+    private val onPreviewClickListener: View.OnClickListener
+    private val onDeleteClickListener: View.OnClickListener
 
     init {
-        onClickListener = View.OnClickListener { v ->
+        onPreviewClickListener = View.OnClickListener { v ->
             val item = v.tag as HostModel
-            // Notify the active callbacks interface (the activity, if the fragment is attached to
-            // one) that an item has been selected.
-            listener?.onHostInteraction(item)
+            listener?.onHostDetailsClicked(item)
+        }
+
+        onDeleteClickListener = View.OnClickListener { v ->
+            val item = v.tag as HostModel
+            listener?.onHostDeleteClicked(item)
         }
     }
 
@@ -41,24 +43,33 @@ class HostsRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
-        holder.mIdView.text = item.id.toString()
-        holder.mContentView.text = "${item.firstName} ${item.lastName}"
+        holder.tvId.text = item.id.toString()
+        holder.tvFirstName.text = item.firstName
+        holder.tvLastName.text = item.lastName
 
-        with(holder.mView) {
+        with(holder.view) {
             tag = item
-            setOnClickListener(onClickListener)
+            setOnClickListener(onPreviewClickListener)
+        }
+
+        with(holder.ivDelete) {
+            tag = item
+            setOnClickListener(onDeleteClickListener)
         }
     }
 
     override fun getItemCount(): Int = items.size
 
-    inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
-        val mIdView: TextView = mView.item_number
-        val mContentView: TextView = mView.content
-
-        override fun toString(): String {
-            return super.toString() + " '" + mContentView.text + "'"
-        }
+    inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+        val tvId: TextView = view.item_number
+        val tvFirstName: TextView = view.tv_first_name
+        val tvLastName: TextView = view.tv_last_name
+        val ivDelete = view.iv_delete
     }
 
+}
+
+interface OnHostListInteractionListener {
+    fun onHostDetailsClicked(item: HostModel)
+    fun onHostDeleteClicked(item: HostModel)
 }

@@ -28,4 +28,11 @@ class HostsViewModel(
         }
     }
 
+    fun deleteHost(hostId: Long) {
+        launchBackgroundJob {
+            hostsInteractor.deleteHost(hostId)
+            _hosts.postValue(hostsInteractor.getAllHosts())
+        }
+    }
+
 }

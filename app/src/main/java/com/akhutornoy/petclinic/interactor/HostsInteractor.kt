@@ -21,4 +21,8 @@ class HostsInteractor(
         repository.addHost(hostRequestMapper.map(firstName, lastName))
     }
 
+    fun deleteHost(hostId: Long) {
+        repository.deleteHost(hostId)
+    }
+
 }

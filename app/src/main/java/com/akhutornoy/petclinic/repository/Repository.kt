@@ -30,4 +30,14 @@ class Repository(
         }
     }
 
+    fun deleteHost(hostId: Long) {
+        val response = localhostRestService.deleteHost(hostId).execute()
+
+        if (response.isSuccessful) {
+            return
+        } else {
+            throw LocalhostException(response)
+        }
+    }
+
 }

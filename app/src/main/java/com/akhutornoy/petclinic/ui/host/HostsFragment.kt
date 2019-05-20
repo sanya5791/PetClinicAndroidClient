@@ -14,16 +14,28 @@ import com.akhutornoy.petclinic.entity.ui.HostModel
 import com.akhutornoy.petclinic.ui.base.BaseFragment
 import com.akhutornoy.petclinic.ui.base.BaseViewModel
 import com.akhutornoy.petclinic.ui.host.adapter.HostsRecyclerViewAdapter
+import com.akhutornoy.petclinic.ui.host.adapter.OnHostListInteractionListener
 import kotlinx.android.synthetic.main.add_host_dialog.*
 import kotlinx.android.synthetic.main.fragment_hosts.*
 
 
 class HostsFragment : BaseFragment() {
 
-    private var listener: OnHostListInteractionListener? = null
+    private var listener: OnHostClickedListener? = null
 
     private val viewModel: HostsViewModel by lazy { HostsUiInjection.provideHostsViewModel(this) }
-    private val listAdapter by lazy { HostsRecyclerViewAdapter(listener) }
+    private val listAdapter by lazy { HostsRecyclerViewAdapter(getOnHostListInteractionListener()) }
+
+    private fun getOnHostListInteractionListener() = object : OnHostListInteractionListener {
+        override fun onHostDetailsClicked(item: HostModel) {
+            listener?.onHostClicked(item)
+        }
+
+        override fun onHostDeleteClicked(item: HostModel) {
+            viewModel.deleteHost(item.id)
+        }
+
+    }
 
     override fun fragmentLayoutId() = R.layout.fragment_hosts
 
@@ -38,6 +50,11 @@ class HostsFragment : BaseFragment() {
         with(recyclerView) {
             layoutManager = LinearLayoutManager(context)
             adapter = listAdapter
+        }
+
+        swipe_refresh.setOnRefreshListener {
+            viewModel.getHosts()
+            swipe_refresh.isRefreshing = false
         }
 
         fab.setOnClickListener {
@@ -57,7 +74,7 @@ class HostsFragment : BaseFragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is OnHostListInteractionListener) {
+        if (context is OnHostClickedListener) {
             listener = context
         } else {
             throw RuntimeException(context.toString() + " must implement OnHostListInteractionListener")
@@ -82,22 +99,18 @@ class HostsFragment : BaseFragment() {
             return AlertDialog.Builder(context!!, R.style.AppTheme_Dialog)
                 .setTitle(title)
                 .setView(R.layout.add_host_dialog)
-                .setPositiveButton(R.string.all_ok) { _, _ ->  addHost() }
-                .setNegativeButton(R.string.all_cancel) { _, _ ->  }
+                .setPositiveButton(R.string.all_ok) { _, _ -> addHost() }
+                .setNegativeButton(R.string.all_cancel) { _, _ -> }
                 .create()
         }
 
         private fun addHost() {
 
             viewModel.addHost(
-
                 requireDialog().et_first_name.text.toString(),
-                requireDialog().et_last_name.text.toString())
+                requireDialog().et_last_name.text.toString()
+            )
         }
-    }
-
-    interface OnHostListInteractionListener {
-        fun onHostInteraction(item: HostModel)
     }
 
     companion object {
@@ -110,4 +123,8 @@ class HostsFragment : BaseFragment() {
             }
     }
 
+}
+
+interface OnHostClickedListener {
+    fun onHostClicked(hostModel: HostModel)
 }
