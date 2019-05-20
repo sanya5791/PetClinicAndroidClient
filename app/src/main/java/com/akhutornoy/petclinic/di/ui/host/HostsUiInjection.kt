@@ -15,6 +15,10 @@ object HostsUiInjection {
             .get(HostsViewModel::class.java)
     }
 
+    fun provideHostsViewModel(dialogFragment: HostsFragment.AddHostDialog): HostsViewModel {
+        return provideHostsViewModel(dialogFragment.parentFragment as HostsFragment)
+    }
+
     private fun provideViewModelFactory() =
         ViewModelFactory(HostsInteractorInjection.provideHostsInteractor())
 

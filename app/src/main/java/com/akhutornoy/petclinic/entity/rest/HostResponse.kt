@@ -4,10 +4,10 @@ import com.google.gson.annotations.SerializedName
 
 data class HostResponse(
 
-	@field:SerializedName("firstName")
+	@field:SerializedName("first_name")
 	val firstName: String,
 
-	@field:SerializedName("lastName")
+	@field:SerializedName("last_name")
 	val lastName: String,
 
 	@field:SerializedName("id")

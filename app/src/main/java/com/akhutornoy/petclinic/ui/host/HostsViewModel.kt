@@ -21,4 +21,11 @@ class HostsViewModel(
         }
     }
 
+    fun addHost(firstName: String, lastName: String) {
+        launchBackgroundJob {
+            hostsInteractor.addHost(firstName, lastName)
+            _hosts.postValue(hostsInteractor.getAllHosts())
+        }
+    }
+
 }

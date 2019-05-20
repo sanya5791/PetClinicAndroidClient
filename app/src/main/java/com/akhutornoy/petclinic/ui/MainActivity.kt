@@ -18,9 +18,7 @@ class MainActivity : AppCompatActivity(), HostsFragment.OnHostListInteractionLis
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        fab.setOnClickListener { _ ->
-            showHostsFragment()
-        }
+        showHostsFragment()
     }
 
     private fun showHostsFragment() {
