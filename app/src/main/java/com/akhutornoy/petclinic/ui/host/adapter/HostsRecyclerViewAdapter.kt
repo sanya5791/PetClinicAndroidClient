@@ -8,7 +8,7 @@ import android.widget.TextView
 import com.akhutornoy.petclinic.R
 import com.akhutornoy.petclinic.entity.ui.HostModel
 
-import kotlinx.android.synthetic.main.item_hosts.view.*
+import kotlinx.android.synthetic.main.item_host.view.*
 
 class HostsRecyclerViewAdapter(
     private val listener: OnHostListInteractionListener?
@@ -37,7 +37,7 @@ class HostsRecyclerViewAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_hosts, parent, false)
+            .inflate(R.layout.item_host, parent, false)
         return ViewHolder(view)
     }
 

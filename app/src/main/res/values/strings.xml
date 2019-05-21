@@ -9,4 +9,6 @@
     <string name="add_host">Add Host</string>
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
+    <string name="name">Name</string>
+    <string name="breed">Breed</string>
 </resources>

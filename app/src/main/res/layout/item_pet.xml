@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:weightSum="10"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/tv_id"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_small"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:layout_weight="1"
+        tools:text="1" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_small"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:layout_weight="4"
+        tools:text="First" />
+
+    <TextView
+        android:id="@+id/tv_breed"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_small"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:layout_weight="4"
+        tools:text="Last" />
+
+    <ImageView
+        android:id="@+id/iv_delete"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_smallest"
+        android:layout_weight="1"
+        android:src="@drawable/ic_delete" />
+
+</LinearLayout>

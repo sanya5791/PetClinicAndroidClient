@@ -7,7 +7,7 @@ import com.akhutornoy.petclinic.interactor.HostsInteractor
 
 object HostsInteractorInjection {
 
-    fun provideHostsInteractor() = HostsInteractor(
+    fun provideInteractor() = HostsInteractor(
         RepositoryInjection.provideRepository(),
         HostModelMapper(),
         HostRequestMapper())

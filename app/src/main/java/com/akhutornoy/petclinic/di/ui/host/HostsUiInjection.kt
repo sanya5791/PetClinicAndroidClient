@@ -20,7 +20,7 @@ object HostsUiInjection {
     }
 
     private fun provideViewModelFactory() =
-        ViewModelFactory(HostsInteractorInjection.provideHostsInteractor())
+        ViewModelFactory(HostsInteractorInjection.provideInteractor())
 
     @Suppress("UNCHECKED_CAST")
     private class ViewModelFactory(

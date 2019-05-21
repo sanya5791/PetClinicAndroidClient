@@ -14,7 +14,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
-            android:name="com.akhutornoy.petclinic.ui.HostsFragment"
+            android:name="com.akhutornoy.petclinic.ui.pet.PetsFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layoutManager="LinearLayoutManager"
